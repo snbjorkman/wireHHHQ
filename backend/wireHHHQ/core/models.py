@@ -22,6 +22,9 @@ class Location(models.Model):
 
 class Project(models.Model):
     project_id = models.CharField(max_length=30, primary_key=True)
+    subdivision = models.CharField(max_length = 30) #may have a separate table for this that is updated with api
+    lot_block = models.CharField(max_length = 30)
+    client = models.CharField(max_length = 30)
 
 
 class WireSku(models.Model):
