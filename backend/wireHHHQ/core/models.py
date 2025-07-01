@@ -1,30 +1,29 @@
 from django.db import models
+import uuid
 
 class Color(models.Model):
-    color_id = models.CharField(max_length=30, primary_key=True)
+    color_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     color_desc = models.CharField(max_length=30)
 
 
 class Brand(models.Model):
-    brand_id = models.CharField(max_length=30, primary_key=True)
+    brand_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     brand_desc = models.CharField(max_length=30)
 
 
 class WireType(models.Model):
-    wire_type_id = models.CharField(max_length=30, primary_key=True)
+    wire_type_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     wire_type_desc = models.CharField(max_length=30)
 
 
 class Location(models.Model):
-    location_id = models.CharField(max_length=30, primary_key=True)
+    location_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     location_desc = models.CharField(max_length=30)
 
 
 class Project(models.Model):
-    project_id = models.CharField(max_length=30, primary_key=True)
-    subdivision = models.CharField(max_length = 30) #may have a separate table for this that is updated with api
-    lot_block = models.CharField(max_length = 30)
-    client = models.CharField(max_length = 30)
+    project_name = models.CharField(max_length=200, primary_key=True, default="PROJECT NAME NOT PROVIDED")
+    client_name = models.CharField(max_length = 200, default="CLIENT NAME NOT PROVIDED")
 
 
 class WireSku(models.Model):
@@ -38,7 +37,7 @@ class WireSku(models.Model):
     
 
 class WireBox(models.Model):
-    wire_box_id = models.CharField(max_length=30, primary_key=True)
+    wire_box_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     sku = models.ForeignKey(WireSku, on_delete=models.CASCADE)
     location_id = models.ForeignKey(Location, on_delete=models.SET_DEFAULT, default = "Warehouse")
     purchase_cost = models.IntegerField()
@@ -48,7 +47,7 @@ class WireBox(models.Model):
 
 
 class WireUsage(models.Model):
-    wire_usage_id = models.CharField(max_length=30, primary_key=True)
+    wire_usage_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     wire_box_id = models.ForeignKey(WireBox, on_delete=models.SET_DEFAULT, default = "BOX UNASSIGNED")
     start_feet = models.IntegerField()
     end_feet = models.IntegerField()
