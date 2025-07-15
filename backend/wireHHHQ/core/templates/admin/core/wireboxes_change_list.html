@@ -1,0 +1,13 @@
+{% extends "admin/change_list.html" %}
+
+{% block object-tools %}
+    <div class="object-tools">
+        <ul>
+            <li>
+                <a href="{% url 'admin:run-wirebox-update' %}">Update Wire Boxes List pulling from Notion</a>
+            </li>
+        </ul>
+    </div>
+    <br><br>
+    {{ block.super }}
+{% endblock %}
