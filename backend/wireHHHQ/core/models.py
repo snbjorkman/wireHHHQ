@@ -6,7 +6,7 @@ class Color(models.Model):
     color_desc = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.color_desc
+        return str(self.color_desc)
 
 
 class Brand(models.Model):
@@ -14,7 +14,7 @@ class Brand(models.Model):
     brand_desc = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.brand_desc
+        return str(self.brand_desc)
 
 
 class WireType(models.Model):
@@ -22,14 +22,14 @@ class WireType(models.Model):
     wire_type_desc = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.wire_type_desc
+        return str(self.wire_type_desc)
 
 class Location(models.Model):
     location_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     location_desc = models.CharField(max_length=30)
 
     def __str__(self):
-        return self.location_desc
+        return str(self.location_desc)
 
 
 class Project(models.Model):
@@ -37,7 +37,7 @@ class Project(models.Model):
     client_name = models.CharField(max_length = 200, default="CLIENT NAME NOT PROVIDED")
 
     def __str__(self):
-        return self.project_name
+        return str(self.project_name)
 
 
 class WireSku(models.Model):
@@ -56,7 +56,7 @@ class WireSku(models.Model):
 
 
     def __str__(self):
-        return self.sku
+        return str(self.sku)
 
 
 
@@ -70,7 +70,7 @@ class WireBox(models.Model):
     disposed_feet_rem = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return self.wire_box_id
+        return str(self.wire_box_id)
 
 
 class WireUsage(models.Model):
@@ -82,4 +82,4 @@ class WireUsage(models.Model):
     project_id = models.ForeignKey(Project, on_delete=models.SET_DEFAULT, default = "PROJECT UNASSIGNED") 
 
     def __str__(self):
-        return self.wire_usage_id
+        return str(self.wire_usage_id)

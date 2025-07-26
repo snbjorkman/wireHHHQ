@@ -45,7 +45,6 @@ def update_projects(data):
     
     loads = json.loads(data)
 
-    #for each project, if it does not exist in the DB, add it to the DB.
     for i in loads["projects"]:
         if not Project.objects.filter(project_name=i["name"]):
             Project.objects.create(project_name=i["name"], client_name=i["clientName"])
@@ -105,54 +104,6 @@ def update_wiretypes(data):
                 WireSku.objects.get(sku=sku).get_unit_price()
 
 
-def pull_notion_wireboxes():
-    url = "https://api.notion.com/v1/databases/16e217799b5580639e0eef151411a3da/query"
-    headers = {
-        "Authorization": os.getenv("NOTION_API_KEY"),
-        "Notion-Version": "2022-06-28",
-        "Content-Type": "application/json"
-    }
-
-    response = requests.post(url, headers=headers)
-
-
-    if response.status_code == 200:
-        print(response.text)
-        update_wireboxes(response.text)
-        
-    else:
-        print("Request failed with error code: ") 
-        print(response)
-
-
-
-def update_wireboxes(data):
-    loads = json.loads(data)
-
-
-    for i in loads["results"][1:]:
-        props = i["properties"]
-        serial_number = props["Box Serial"]["title"][0]["plain_text"]
-        sku = props["SKU"]
-        location = "Shelf"
-        if (props["In Van?"]["checkbox"] == "true"):
-            location = "Van"
-        purchase_date = props["Purchase Date"]
-        purchase_cost = props["Purchase Price"]
-        disposed_date = props["Trashed Date"]
-        disposed_feet_rem = props["Feet Trashed"]
-
-        #CONVERT DATES TO PYTHON's FORMAT
-
-        #embed in try-catch maybe. if there are errors on execution do that.
-        try:
-            if not (sku == None or purchase_cost == None) and not WireBox.objects.filter(wire_box_id=serial_number).exists():
-                WireBox.objects.create(wire_box_id=serial_number, sku=WireSku.objects.get(sku=sku), location_id=Location.objects.get(location_id=location), purchase_cost=purchase_cost, purchase_date=purchase_date, disposed_date=disposed_date, disposed_feet_rem=disposed_feet_rem)
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
-
-
-#TRY WIRE USAGES IF YOU ARE ABLE TO GET PROJECTS LINKED...
 
 
 
